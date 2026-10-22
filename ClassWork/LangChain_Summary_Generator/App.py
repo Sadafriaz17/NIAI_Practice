@@ -65,7 +65,7 @@ def build_chain():
     return prompt | llm | StrOutputParser()
 
 
-# ---------- Step 3: load the stylesheet ----------
+# ---------- Step 3: load the stylesheet ---------
 def load_css(file_name="style.css"):
     """Read style.css and add it to the page. The @import line is the first line in that file."""
     css_path = Path(__file__).parent / file_name # parent is app.py's directory, file_name is style.css
