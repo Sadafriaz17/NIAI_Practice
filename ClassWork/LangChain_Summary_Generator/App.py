@@ -23,19 +23,19 @@ LENGTH_OPTIONS = {
 
 
 # ---------- Step 1: search for papers ----------
-def search_papers(query): #query is the text user typed 
+def search_papers(query): #query is the text user typed.
     """Search arXiv and return a list of papers."""
-    client = arxiv.Client()
+    client = arxiv.Client() # send request to arxiv 
     search = arxiv.Search(
         query=query,
-        sort_by=arxiv.SortCriterion.Relevance,
+        sort_by=arxiv.SortCriterion.Relevance, # search relevant results and sort them 
     )
-    papers = []
+    papers = [] #papers will be stored in this list
     for result in client.results(search):
         papers.append(
             {
                 "title": result.title,
-                "authors": ", ".join(a.name for a in result.authors[:3]),
+                "authors": ", ".join(a.name for a in result.authors[:3]), #takes the first three authors. a.name for a in ... gets the name of each author.
                 "year": result.published.year,
                 "abstract": result.summary,
                 "url": result.entry_id,
@@ -68,7 +68,7 @@ def build_chain():
 # ---------- Step 3: load the stylesheet ----------
 def load_css(file_name="style.css"):
     """Read style.css and add it to the page. The @import line is the first line in that file."""
-    css_path = Path(__file__).parent / file_name
+    css_path = Path(__file__).parent / file_name # parent is app.py's directory, file_name is style.css
     css = css_path.read_text(encoding="utf-8")
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
 
