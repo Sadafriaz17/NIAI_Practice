@@ -1,0 +1,28 @@
+SAMPLE TEXT FOR TESTING THE TOOL (not a real paper)
+
+Title: Attention Helps Small Models Remember Long Sequences
+
+Abstract
+Recurrent networks such as the LSTM struggle to use information that appeared many steps earlier. We study a small encoder that adds a single self-attention layer on top of a one-layer LSTM and evaluate it on a synthetic "remember the first token" task, on sentiment classification of movie reviews and on one-step-ahead forecasting of a monthly CO2 series. With the same number of epochs the attention variant reaches 94% accuracy on sequences of length 200 where the plain LSTM stays near chance (10%). On reviews the gain is small (88.1% vs 87.4% F1), and on the CO2 series a seasonal-naive baseline is as good as both neural models.
+
+1. Introduction
+Long-range dependencies are hard for recurrent networks because gradients shrink as they are propagated back through many time steps. Gating mechanisms reduce this problem but do not remove it. Attention lets the model look directly at any earlier position.
+
+2. Method
+The model embeds the input, runs a one-layer LSTM with 64 hidden units, and applies one self-attention layer with a single head over all hidden states. The last position, enriched with the attended summary, is passed to a linear classifier. Training uses Adam with a learning rate of 0.003 and gradient clipping at 1.0.
+
+3. Experiments
+Memory task: random digits, the label is the first digit, lengths 20, 50, 100 and 200. Sentiment: 8,000 training and 2,000 test reviews. Forecasting: monthly CO2 values, the last 20% of the series is the test set.
+
+4. Results
+Memory task accuracy at length 200: LSTM 11%, LSTM + attention 94%. Sentiment F1: 87.4% (LSTM), 88.1% (LSTM + attention). Forecasting MAE (ppm): seasonal naive 0.62, LSTM on differences 0.60, LSTM + attention on differences 0.59.
+
+5. Limitations
+Only small models and three tasks were tested. Attention adds cost that grows with the square of the sequence length. The synthetic task may overstate real-world benefits.
+
+6. Conclusion
+A single attention layer fixes most of the long-memory problem of a small LSTM, but on real tasks with short context the improvement is marginal and simple baselines remain competitive.
+
+References
+[1] Hochreiter and Schmidhuber. Long short-term memory. 1997.
+[2] Vaswani et al. Attention is all you need. 2017.

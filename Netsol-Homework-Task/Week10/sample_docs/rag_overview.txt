@@ -1,0 +1,19 @@
+Retrieval-Augmented Generation (RAG) - short overview (sample document for testing)
+
+What is RAG?
+Retrieval-Augmented Generation combines a search step with a language model. Instead of relying only on what the model memorised during training, the system first retrieves passages from your own documents and then asks the model to answer using those passages. This reduces hallucinations and lets the model use private or very recent information.
+
+The components of a RAG system
+1. Loader: reads PDF, text or web pages and extracts the raw text.
+2. Chunker: splits long text into overlapping pieces, usually a few hundred tokens each, so that every piece fits the embedding model and holds one idea.
+3. Embedding model: converts every chunk into a vector. Chunks with similar meaning end up close to each other in vector space.
+4. Vector store: keeps the vectors and finds the nearest ones to a query vector, usually with cosine similarity. Examples are FAISS, Chroma and Qdrant.
+5. Retriever: embeds the user question and returns the top-k most similar chunks.
+6. Prompt builder: puts the retrieved chunks and the question into a prompt and tells the model to answer only from the context and to cite its sources.
+7. Generator: the large language model that writes the final answer.
+
+Typical settings
+A chunk size of 500 to 1000 characters with an overlap of 10 to 20 percent works well for many documents. A top-k between 3 and 6 is common. Too small a chunk loses context; too large a chunk dilutes the meaning and wastes the prompt.
+
+Evaluation
+A RAG system is evaluated on two parts: retrieval quality (is the right passage among the top-k results?) and answer quality (is the answer correct, complete and faithful to the sources?).
